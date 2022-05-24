@@ -15,7 +15,7 @@ public class RecipeSharingAppApplication {
 	
 	@GetMapping("/hello")
 	public String Hello() {
-		String name = "Mary Joyce";
+		String name = "Mary Joyce Namoc";
 		return "Hello, " + name;
 	}
 }
