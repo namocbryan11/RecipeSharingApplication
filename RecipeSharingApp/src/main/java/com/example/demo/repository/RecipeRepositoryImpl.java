@@ -23,16 +23,36 @@ public class RecipeRepositoryImpl implements RecipeRepositoryCustom{
 
 	@Override
 	public List<Recipe> getAllRecipe() {
-		String sql = "SELECT * FROM RECIPES";
+		String sql = "SELECT * FROM RECIPES ORDER BY ID";
 		List<Recipe> recipe = jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Recipe.class));
 		return recipe;
 	}
 	//this.jdbcTemplate.update("UPDATE RECIPES set NAME = ? WHERE ID = ?", name,Id);
 
 	@Override
-	public void updateRecipe(String name, int Id) {
+	public Recipe createRecipe(Recipe recipe) {
+		String name= recipe.getName();
+		String description= recipe.getDescription();
+		int vote = recipe.getVote();
 		// TODO Auto-generated method stub
-		this.jdbcTemplate.update("UPDATE RECIPES set NAME = ? WHERE ID = ?", name,Id);
+		this.jdbcTemplate.update("INSERT INTO RECIPES(NAME,DESCRIPTION,VOTES) VALUES(?,?,?)",name,description,vote);
+		return recipe;
+	}
+
+	@Override
+	public void updateRecipe(Recipe recipe, int Id) {
+		// TODO Auto-generated method stub
+		String name = recipe.getName();
+		String description = recipe.getDescription();
+		int vote = recipe.getVote();
+		this.jdbcTemplate.update("UPDATE RECIPES set NAME=?, DESCRIPTION=?, VOTES=? WHERE ID=?", name,description,vote,Id);
+	}
+
+	@Override
+	public void deleteRecipe(int Id) {
+		// TODO Auto-generated method stub
+		this.jdbcTemplate.update("DELETE from RECIPES WHERE ID = ?", Id);
+		
 	}
 
 	

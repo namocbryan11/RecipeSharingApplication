@@ -10,5 +10,7 @@ import com.example.demo.model.Recipe;
 @Repository
 public interface RecipeRepositoryCustom {
 	List<Recipe>getAllRecipe();
-	void updateRecipe(String name, int Id);
+	void updateRecipe(Recipe recipe, int Id);
+	Recipe createRecipe(Recipe recipe);
+	void deleteRecipe(int Id);
 }
