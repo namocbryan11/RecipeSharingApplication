@@ -17,3 +17,4 @@ FrontEnd
 - constant variables used in common/constants folder
 - Vue file (Recipe.vue) in components/recipe folder
 
+Intended to practice these techs
