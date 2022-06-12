@@ -1,67 +1,57 @@
 <template>
-    <div class="container">
-        <h1 class="text-center"> RECIPE LIST </h1>
-        <div class="action_buttons text-end">
-            <button 
-            type="button" 
-            class="btn btn-primary"
-            @click="openModal(1,null)">
-                New recipe 
-            </button>
-        </div>
-        <table class="table table-striped">
-            <thead>
-                <th> ID </th>
-                <th> NAME </th>
-                <th> DESCRIPTION </th>
-                <th> VOTES </th>
-                <th> OPTIONS </th>
-            </thead>
-            <tbody>
-                <tr v-for="recipe in recipes" v-bind:key="recipe.id">
-                    <td>{{recipe.id}}</td>
-                    <td>{{recipe.name}}</td>
-                    <td id="td-Description">{{recipe.description}}</td>
-                    <td>{{recipe.vote}}</td>
-                    <td>
-                        <button type="button" class="btn btn-primary" @click="openModal(0,recipe)">EDIT</button>
-                        <button type="button" class="btn btn-danger" @click="deleteRecipe(recipe)">DELETE</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-          <!--MODAL FOR CREATING AND EDITING RECIPE-->
-    <div id="id01" class="modal">
-        <div id="modContent" class="modal-content">
-
-            <div class="modal_dialog">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{modalTitle}}</h5>
-                </div>
-                <div class="modal-body">
-                    <div class="form-floating mb-3">
-                        <input type="text" v-model="recipeName" class="form-control" id="floatingInput" placeholder="name@example.com" v-on:change="changeRecipeNameHandler">
-                        <label for="floatingInput">Recipe Name</label>
-                    </div>
-                    <div class="form-floating">
-                        <textarea v-model="recipeDescription" class="form-control" id="floatingPassword" placeholder="Description" v-on:change="changeRecipeDescriptionHandler">
-                        </textarea>
-                        <label for="floatingPassword">Description</label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" @click="closeModal">Close</button>
-                    <button type="button" v-if="isEditMode" class="btn btn-success" @click="updateRecipe">Save</button>
-                    <button type="button" v-else class="btn btn-success" @click="saveRecipe">Save</button>
-                </div>
+    <div>
+        <!--Header-->
+        <navHeader />
+        <div id="page">
+            <h1 class="text-center"> RECIPE LIST </h1>
+            <div class="action_buttons text-end" >
+                <button type="button" class="btn btn-primary" @click="openModal(1,null)">
+                    New recipe 
+                </button>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                    <th> ID </th>
+                    <th> NAME </th>
+                    <th> DESCRIPTION </th>
+                    <th> VOTES </th>
+                    <th> OPTIONS </th>
+                </thead>
+                <tbody>
+                    <tr v-for="recipe in recipes" v-bind:key="recipe.id">
+                        <td>{{recipe.id}}</td>
+                        <td>{{recipe.name}}</td>
+                        <td id="td-Description">{{recipe.description}}</td>
+                        <td>{{recipe.vote}}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary" @click="openModal(0,recipe)">EDIT</button>
+                            <button type="button" class="btn btn-danger" @click="deleteRecipe(recipe)">DELETE</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--MODAL FOR CREATING AND EDITING RECIPE-->
+            <div id="id01" class="modal">
+                <modal_createRecipe 
+                    :modalkey='modalKey'
+                    :recipeId='recipeId'
+                    :name='recipeName'
+                    :description='recipeDescription'
+                    :votes='recipeVote'
+                    :editMode='isEditMode'
+                    :modalTitle='modalTitle'
+                    @closeModal='closeModal'
+                    @getRecipes='getRecipes'
+                /> 
             </div>
         </div>
-    </div>
     </div>    
 </template>
 
 <script>
 import recipeService from '../../utils/RecipeAPIService'
+import navHeader from '../../common/navbars/Header.vue'
+import modal_createRecipe from '../../common/modals/createRecipe.vue';
 
 export default {
     name:'RecipesComponent',
@@ -74,6 +64,7 @@ export default {
             recipeDescription: "",
             recipeVote: 0,
             isEditMode: false,
+            modalKey:0,
         } 
     },
     methods:{
@@ -84,6 +75,7 @@ export default {
         },
         openModal: function(modal_key,recipe){
             document.getElementById('id01').style.display = 'block';
+            this.modalKey = modal_key;
             if (modal_key == 1){
                 this.modalTitle = "Add New Recipe";
                 this.isEditMode = false;
@@ -101,49 +93,24 @@ export default {
             document.getElementById('id01').style.display = 'none';
             this.resetInputs();
         },
-        changeRecipeNameHandler: function(event){ 
-            this.recipeName = event.target.value;
-        },
-        changeRecipeDescriptionHandler: function(event){ 
-            this.recipeDescription = event.target.value;
-        },
-        saveRecipe: function(){
-            let recipe ={
-                name: this.recipeName,
-                description: this.recipeDescription,
-                votes: this.recipeVote,
-            }
-            recipeService.addNewRecipe(recipe).then(() => {
-                this.getRecipes();
-            });
-            this.closeModal();
-        },
-        updateRecipe: function(){
-            let recipe ={
-                name: this.recipeName,
-                description: this.recipeDescription,
-                votes: this.recipeVote,
-            }
-            recipeService.updateRecipe(recipe,this.recipeId).then(() => {
-                this.getRecipes();
-            });
-            this.closeModal();
-        },
-        deleteRecipe: function(recipe){
-            recipeService.deleteRecipe(recipe.id).then(() =>{
-                this.getRecipes();
-            });
-        },
         resetInputs: function(){
             this.recipeId = -1;
             this.recipeName = "";
             this.recipeDescription = "";
             this.recipeVote = "";
         },
+        deleteRecipe: function(recipe){
+            recipeService.deleteRecipe(recipe.id).then(() =>{
+                this.getRecipes();
+            });
+        },
     },
-
     created(){
         this.getRecipes()
+    },
+    components: {
+        navHeader,
+        modal_createRecipe,
     }
 
 }
@@ -169,21 +136,12 @@ export default {
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-#modContent{
-    max-width: 40%;
-    min-width: 250px;
-    background: white;
-    margin: auto;
-    padding: 20px;
+#page{
+    width: 100%;
+   padding: 20px;
 }
-.modal_dialog{
-    width: 90%;
-    margin: auto;
-}
-#td-Description{
-    max-width: 200px;
-}
-#floatingPassword{
-    height: 350px;
+html,body{
+    margin: 0px !important;
+    padding: 0px !important;
 }
 </style>

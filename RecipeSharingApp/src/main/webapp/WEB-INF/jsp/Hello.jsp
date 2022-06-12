@@ -8,12 +8,10 @@
 </head>
 <body>
 	<h1>Login Page</h1>
-	<form action="/api/login" method="post">
+	<form action="/jsp/welcome" method="post">
 		<input type="email" placeholder="Email" name="email">
 		<input type="password" placeholder="Password" name="password">
 		<button type="submit"> Login </button>
 	</form>
-	
-	<h2>Welcome ${email}</h2>
 </body>
 </html>
