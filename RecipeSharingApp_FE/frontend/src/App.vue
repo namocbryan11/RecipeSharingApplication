@@ -1,15 +1,17 @@
 <template>
-  <Recipes_component />
+<div>
+    <router-view></router-view>
+</div>
+  
 </template>
 
 <script>
-import Recipes_component from './components/recipe/Recipe.vue'
 
 export default {
   name: 'App',
-  components: {
-    Recipes_component
-  }
+  // components: {
+  //   Recipes_component
+  // }
 }
 </script>
 
@@ -20,6 +22,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

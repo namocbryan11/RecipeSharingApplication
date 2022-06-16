@@ -1,19 +1,14 @@
-package com.example.demo.controller;
+package com.example.demo.controller.rest;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.example.demo.model.Login;
 import com.example.demo.model.Recipe;
 import com.example.demo.repository.RecipeRepository;
 
@@ -23,7 +18,7 @@ import com.example.demo.repository.RecipeRepository;
 public class RecipeController {
 	
 	@Autowired
-	private RecipeRepository recipeRepository;
+	private RecipeRepository mainRepository;
 	
 	//get all recipe
 	@GetMapping("/recipes")
@@ -31,12 +26,13 @@ public class RecipeController {
 	{
 		System.out.print("Testing");
 		System.out.print("Testing2");
-		return recipeRepository.getAllRecipe();
+		return mainRepository.getAllRecipe();
 	}
+	
 	@PostMapping("/recipes/update/{id}")
 	public String updateRecipe(@RequestBody Recipe recipe, @PathVariable int id) {
 		try {
-			recipeRepository.updateRecipe(recipe,id);
+			mainRepository.updateRecipe(recipe,id);
 			return "Succesfully Changed!";
 		}catch(Exception e) {
 			return e.getMessage();
@@ -47,14 +43,14 @@ public class RecipeController {
 	@PostMapping("/recipes")
 	public Recipe createRecipe(@RequestBody Recipe recipe) {
 		System.out.print("Recipe: "+ recipe.getDescription());
-		return recipeRepository.createRecipe(recipe);
+		return mainRepository.createRecipe(recipe);
 	}
 	
 	@PostMapping("/recipes/{id}")
 	public boolean deleteRecipe(@PathVariable int id) {
 		System.out.print("Id to delete: " + id);
 		try {
-			recipeRepository.deleteRecipe(id);
+			mainRepository.deleteRecipe(id);
 			return true;
 		}catch(Exception e) {
 			System.out.print(e.getMessage());

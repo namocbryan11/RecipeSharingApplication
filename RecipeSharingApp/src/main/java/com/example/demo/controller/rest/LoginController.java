@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.controller.rest;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +9,7 @@ import com.example.demo.model.Login;
 
 @RestController
 @RequestMapping("/api/")
-public class Rest_LoginController {
+public class LoginController {
 	
 	@PostMapping("/login")
 	public Login loginPage(@RequestParam(value="email", defaultValue="World") String email, 

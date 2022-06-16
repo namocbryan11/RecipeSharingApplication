@@ -1,0 +1,21 @@
+// topic 1: variables
+// check Variables.scss file to understand
+@import 'Variables';
+
+.loginForm{
+    width: 40%;
+    vertical-align: center;
+    margin:auto;
+    margin-top: 20px;
+    padding:$thick-padding;
+    border: $thin-border;
+    border-radius: 5px;
+    background-color: $primary;
+}
+.form-control{
+    margin-bottom: 10px;
+}
+.loginBtns{
+    width: 100%;
+    margin-bottom: 5px;
+}
