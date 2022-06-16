@@ -1,52 +1,62 @@
 <template>
     <div class="page">
-        <navHeader />
         <div class="loginForm shadow">
             <h3>Login</h3>
             <form method="post">
                 <div class="form-floating">
-                    <input type="email" id="emailInput" class="form-control" />
+                    <input type="email" id="emailInput" class="form-control" v-on:change="onEmailChangeHandler" />
                     <label for="emailInput">
                         Email
                     </label>
                 </div>
                 <div class="form-floating">
-                    <input type="password" name="passwordInput" class="form-control" />
+                    <input type="password" name="passwordInput" class="form-control" v-on:change="onPasswordChangeHandler"/>
                     <label for="emailInput">
                         Password
                     </label>
                 </div>
-                <a class="btn btn-success loginBtns">Submit</a>
-                <a class="btn btn-primary loginBtns" href="/register">Register</a>
+                <a class="btn btn-success loginBtns" @click="loginUser"> Submit </a>
+                <span>Don't have account? </span>
+                <a class=" loginBtns" href="/register">Register</a>
             </form>
         </div>
     </div>
 </template>
 
 <script>
-    import navHeader from '../../common/navbars/Header.vue'
+    // import navHeader from '../../common/navbars/Header.vue'
+    import userService from '../../utils/UserAPIService';
+
     export default{
         name:'LoginRegister',
-        components:{
-            navHeader
+        data(){
+            return{
+                email: '',
+                password: '',
+            }
         },
+        components:{
+            // navHeader
+        },
+        methods: {
+            onEmailChangeHandler: function(event){
+                this.email = event.target.value;
+            },
+            onPasswordChangeHandler: function(event){
+                this.password = event.target.value;
+            },
+            loginUser: function(){
+                userService.isUserExist(this.email,this.password).then((response) => {
+                    if(response.data == true){
+                        location.href="/recipes";
+                    }else{
+                        alert("invalid credentials!");
+                    }
+                });
+            }
+        }
     }
+
 </script>
     
-<style>
-.loginForm{
-    width: 40%;
-    vertical-align: center;
-    margin:auto;
-    margin-top: 20px;
-    padding:10px;
-    border-radius: 5px;
-}
-.form-control{
-    margin-bottom: 10px;
-}
-.loginBtns{
-    width: 100%;
-    margin-bottom: 5px;
-}
-</style>
+<style src="../../css/LoginRegister.scss" lang="scss" />

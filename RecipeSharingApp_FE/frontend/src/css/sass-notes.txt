@@ -1,0 +1,26 @@
+TOPIC: SASS
+Source: https://www.youtube.com/watch?v=La8wN7o-cL8&list=PL4cUxeGkcC9jxJX7vojNVK-o8ubDZEcNb&index=8
+1. variables
+2. partials & @import 
+    - e.g put the variables into another file and import for cleaner code
+3. Nested rules
+    - nested css structure
+4. Using math
+    - sample:
+        $base-font-size: 10px;
+        $base-font-size-sm: $base-font-size * 0.75;
+        $base-font-size-lg: $base-font-size * 2;
+    - for the case of divide (/), We need to use the Math package
+        1. add @use 'sass:math'
+        2. to divide: the syntax is math.div($sample-variable,4);
+    - ADDITIONAL NOTE: With this technique, all sizes will automatically change when the base is changed
+5. Maps @Video #8
+    - source: https://www.youtube.com/watch?v=La8wN7o-cL8&list=PL4cUxeGkcC9jxJX7vojNVK-o8ubDZEcNb&index=8
+    - list
+6. Loops
+    - source: https://www.youtube.com/watch?v=I1lp8eSKmEs&list=PL4cUxeGkcC9jxJX7vojNVK-o8ubDZEcNb&index=9
+7. Conditionals
+    - if/else
+8. Parent Selectors
+    - source: https://www.youtube.com/watch?v=unhOp1Z-hec&list=PL4cUxeGkcC9jxJX7vojNVK-o8ubDZEcNb&index=11
+    - hover effects
