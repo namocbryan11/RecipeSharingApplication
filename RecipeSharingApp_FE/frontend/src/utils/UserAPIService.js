@@ -12,6 +12,12 @@ class UserService{
         }
         return axios.post(CONST_VARIABLES.LOGIN_USER_URL,payload)
     }
+    getUserByEmail(email){
+        return axios.get(CONST_VARIABLES.USER_BASE + "/" + email)
+    }
+    saveProfile(Id, User){
+        return axios.post(CONST_VARIABLES.EDIT_PROFILE_URL + "/" + Id, User)
+    }
     // getAllUsers(){
     //     return axios.get(CONST_VARIABLES.RECIPE_URL)
     // }

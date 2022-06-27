@@ -111,7 +111,7 @@ export default {
     components: {
         navHeader,
         modal_createRecipe,
-    }
+    },
 
 }
 </script>

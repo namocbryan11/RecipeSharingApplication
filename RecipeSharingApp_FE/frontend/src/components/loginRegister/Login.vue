@@ -48,6 +48,7 @@
             loginUser: function(){
                 userService.isUserExist(this.email,this.password).then((response) => {
                     if(response.data == true){
+                        sessionStorage.setItem('email',this.email);
                         location.href="/recipes";
                     }else{
                         alert("invalid credentials!");
